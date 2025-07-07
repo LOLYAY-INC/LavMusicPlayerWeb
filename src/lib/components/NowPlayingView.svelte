@@ -220,8 +220,8 @@
         display: inline-block;
         margin-top: 16px;
         padding: 8px 20px;
-        background-color: var(--text-primary);
-        color: var(--bg-primary);
+        background-color: var(--bg-black, #121212);
+        color: var(--text-interactive, #1db954);
         font-size: 0.875rem;
         font-weight: 600;
         border-radius: 500px;
@@ -231,7 +231,8 @@
 
     .btn-primary:hover:not(:disabled) {
         transform: scale(1.03);
-        background-color: var(--text-interactive);
+        background-color: rgba(29, 185, 84, 0.1);
+        color: var(--text-interactive, #1db954);
     }
 
     .btn-primary:active:not(:disabled) {
