@@ -12,18 +12,14 @@
   import WelcomeView from '$lib/components/WelcomeView.svelte';
   import NowPlayingView from '$lib/components/NowPlayingView.svelte';
 
-  // --- This is the key reactive logic block ---
   let hasActiveSong = false;
 
-  // This $: block will re-run whenever `$player.currentSong` changes.
-  // This is the correct way to react to store updates.
+
   $: {
-    // console.log('Store updated. Current song:', $player.currentSong); // Use this for debugging
 
     hasActiveSong = $player.currentSong.title !== 'No song playing' && !!$player.currentSong.encoded;
   }
 
-  // When the component is first mounted, initialize the player.
   onMount(() => {
     player.init();
   });
@@ -40,8 +36,6 @@
       <SearchBar />
     </header>
 
-    <!-- This container is permanent and fills the space below the header. -->
-    <!-- Its child is what Svelte will swap reactively. -->
     <div class="view-container">
       {#if hasActiveSong}
         <NowPlayingView />
@@ -56,7 +50,6 @@
 <AddTrackToPlaylistModal />
 
 <style>
-  /* --- GLOBAL STYLES & CSS VARIABLES --- */
   :root {
     --font-sans: 'Poppins', sans-serif;
     --bg-black: #000000;
@@ -67,7 +60,7 @@
     --bg-element-active: #535353;
     --text-primary: #ffffff;
     --text-secondary: #b3b3b3;
-    --text-interactive: #1db954; /* Spotify Green */
+    --text-interactive: #1db954;
     --player-height: 90px;
   }
 
@@ -81,14 +74,13 @@
   :global(*, *::before, *::after) { box-sizing: border-box; }
   :global(p, h1, h2, h3) { margin: 0; }
 
-  /* --- MAIN APP LAYOUT --- */
   .app-container {
     display: grid;
     grid-template-areas: 'sidebar main';
     grid-template-columns: 250px 1fr;
     height: calc(100vh - var(--player-height));
     width: 100%;
-    overflow: hidden; /* Prevents whole-page scrollbars */
+    overflow: hidden;
   }
 
   .sidebar {
@@ -103,7 +95,7 @@
 
   .main-content {
     grid-area: main;
-    overflow: auto; /* Allow this section to scroll if content is too big */
+    overflow: auto;
     background-color: var(--bg-dark-gray);
     display: flex;
     flex-direction: column;
@@ -116,21 +108,18 @@
     padding: 16px 32px;
     display: flex;
     justify-content: center;
-    /* Use a semi-transparent version of the bg for the glass effect */
     background-color: rgba(18, 18, 18, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    flex-shrink: 0; /* Prevent header from shrinking */
+    flex-shrink: 0;
   }
 
-  /* This container's job is to grow and fill the space below the header */
   .view-container {
     flex-grow: 1;
-    display: flex; /* This allows the child to fill the height */
-    min-height: 0; /* A flexbox trick to prevent child overflow issues */
+    display: flex;
+    min-height: 0;
   }
 
-  /* Target the root elements of our view components to ensure they fill the container */
   .view-container :global(.now-playing-grid),
   .view-container :global(.welcome-container) {
     flex-grow: 1;

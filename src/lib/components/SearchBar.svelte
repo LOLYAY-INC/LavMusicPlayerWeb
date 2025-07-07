@@ -21,14 +21,12 @@
     };
 
     const playTrack = (track: any) => {
-        // When playing a single track from search, we clear the playlist context first.
         playlistStore.clearActivePlaylist();
         player.playSong(track);
         searchQuery = '';
         isFocused = false;
     };
 
-    // --- Logic to close dropdown when clicking outside ---
     const handleClickOutside = (event: MouseEvent) => {
         if (container && !container.contains(event.target as Node)) {
             isFocused = false;
@@ -73,7 +71,6 @@
             <ul>
                 {#each $player.searchResults.slice(0, 6) as track (track.encoded)}
                     <li>
-                        <!-- This container is clickable and expands to fill space -->
                         <div class="track-info" on:click={() => playTrack(track)}>
                             <CachedImage
                                     class="result-art"
@@ -118,7 +115,7 @@
         cursor: pointer;
         padding: 8px;
         border-radius: 50%;
-        flex-shrink: 0; /* Prevent button from shrinking */
+        flex-shrink: 0;
     }
     .add-btn:hover {
         background-color: rgba(255, 255, 255, 0.1);
@@ -139,7 +136,7 @@
     input {
         width: 100%;
         height: 40px;
-        padding: 0 16px 0 48px; /* Left padding makes room for the icon */
+        padding: 0 16px 0 48px;
         border-radius: 500px;
         background-color: #242424;
         color: #fff;
@@ -180,8 +177,8 @@
     li {
         display: flex;
         align-items: center;
-        gap: 8px; /* Space between track info and add button */
-        padding: 4px 8px; /* Vertical and Horizontal padding */
+        gap: 8px;
+        padding: 4px 8px;
         border-radius: 4px;
         transition: background-color 0.2s;
     }
@@ -192,10 +189,9 @@
     .track-info {
         display: flex;
         align-items: center;
-        gap: 12px; /* Space between album art and text */
-        flex-grow: 1; /* Key property to push button to the right */
+        gap: 12px;
         cursor: pointer;
-        min-width: 0; /* Allows text truncation to work correctly in a flex container */
+        min-width: 0;
     }
 
     li :global(.result-art) {
@@ -206,7 +202,7 @@
     }
 
     .result-text {
-        overflow: hidden; /* Hide overflowing text that children will have */
+        overflow: hidden;
     }
 
     .result-text .title {

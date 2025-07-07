@@ -113,9 +113,6 @@ const createPlayerStore = () => {
                     // Create a mutable copy of the current state.
                     const updatedState = { ...store };
 
-                    // --- START OF FIX ---
-                    // Defensively update ONLY the properties the server is responsible for.
-                    // This prevents wiping out client-side state like `repeatMode`.
 
                     if (data.playing !== undefined && data.paused !== undefined) {
                         updatedState.isPlaying = data.playing && !data.paused;
@@ -143,9 +140,7 @@ const createPlayerStore = () => {
                             updatedState.lyrics = { content: null, source: null, loading: false, error: null };
                         }
                     }
-                    // If server sends `current: null`, we intentionally do nothing to `currentSong`.
-                    // This preserves the last song's data for the `case 201` handler.
-                    // --- END OF FIX ---
+
 
                     return updatedState;
                 });
@@ -186,7 +181,6 @@ const createPlayerStore = () => {
                 playlistStore.headlessUpdatePacket(data.data);
                 break;
 
-            // --- THIS IS THE FIX ---
             case 201: // Track just ended, decide what to do next.
                 const currentPlayerState = get(player);
                 if (currentPlayerState.headless) return; // Headless mode handles its own logic
@@ -206,7 +200,6 @@ const createPlayerStore = () => {
                     playlistStore.playNext();
                 }
                 break;
-            // --- END OF FIX ---
 
             case 401:
                 if (data.url && data.base64) {
@@ -228,7 +221,6 @@ const createPlayerStore = () => {
     };
 
     const methods = {
-        // ... (startHeadlessMode, stopHeadlessMode, init remain unchanged)
 
         init: (url = 'ws://localhost:3272/') => {
             if (typeof window !== 'undefined') {

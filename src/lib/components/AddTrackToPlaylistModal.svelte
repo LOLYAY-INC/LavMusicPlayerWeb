@@ -12,7 +12,6 @@
 </script>
 
 {#if $modalStore.isOpen}
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="scrim" on:click={modalStore.close}>
         <div class="modal-content" on:click|stopPropagation>
             <h2>Add to playlist</h2>

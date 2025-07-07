@@ -214,18 +214,17 @@
         opacity: 0.5;
     }
 
-    /* 2. Add the new, reusable primary button style */
     .btn-primary {
         all: unset;
         box-sizing: border-box;
         display: inline-block;
-        margin-top: 16px; /* Space from the text above */
+        margin-top: 16px;
         padding: 8px 20px;
         background-color: var(--text-primary);
-        color: var(--bg-primary); /* High contrast text */
+        color: var(--bg-primary);
         font-size: 0.875rem;
         font-weight: 600;
-        border-radius: 500px; /* Pill shape */
+        border-radius: 500px;
         cursor: pointer;
         transition: transform 0.1s ease-out, background-color 0.1s;
     }

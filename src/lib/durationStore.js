@@ -10,7 +10,6 @@ function createDurationStore() {
 
     return {
         subscribe,
-        // Method for the playerStore to call when a duration response arrives
         setDuration: (trackId, duration) => {
             update(cache => {
                 cache.set(trackId, duration);

@@ -6,7 +6,6 @@
     import CachedImage from './CachedImage.svelte';
 
     function createNewPlaylist() {
-        // Use a simple prompt to get the new playlist name
         const name = prompt('Enter a name for your new playlist:');
         if (name) {
             playlistStore.createPlaylist(name);
@@ -16,7 +15,6 @@
 
 <div class="playlist-container">
     <header>
-        <!-- 3. Translate the button text -->
         <button class="create-btn" on:click={createNewPlaylist}>
             <Icon icon="material-symbols:add" width="20" height="20" />
             <span>New Playlist</span>
@@ -30,7 +28,6 @@
             >
                 <div class="art-grid">
                     {#each Array(4) as _, i}
-                        <!-- Replace the old logic with the new component -->
                         <CachedImage src={playlist.tracks[i]?.trackInfo.artWorkUrl} />
                     {/each}
                 </div>
@@ -38,7 +35,6 @@
                     <p class="name">{playlist.name}</p>
                     <p class="details">Playlist</p>
                 </div>
-                <!-- ... text-details ... -->
             </div>
         {/each}
     </div>
@@ -51,21 +47,20 @@
         cursor: not-allowed;
     }
     .playlist-item.disabled:hover {
-        background-color: transparent; /* Disable hover effect */
+        background-color: transparent;
     }
-    /* 2. Apply new styling for the component */
     .playlist-container {
         background-color: var(--bg-element, #282828);
         border-radius: 8px;
         padding: 8px;
-        overflow-y: auto; /* Allow scrolling if list is long */
-        flex-grow: 1; /* Make it take available space */
+        overflow-y: auto;
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
     }
 
     header {
-        padding: 0 8px 8px 8px; /* Add some padding around the button */
+        padding: 0 8px 8px 8px;
     }
 
     .art-grid :global(img),
@@ -97,7 +92,6 @@
     .list {
         display: flex;
         flex-direction: column;
-        gap: 4px; /* Small gap between playlist items */
     }
 
     .playlist-item {
@@ -115,20 +109,19 @@
     }
 
     .art-grid {
-        /* This is a 48x48 pixel square now */
         width: 48px;
         height: 48px;
-        min-width: 48px; /* Prevent it from shrinking */
+        min-width: 48px;
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
         border-radius: 4px;
-        overflow: hidden; /* This clips the corners of the inner images */
+        overflow: hidden;
         background-color: #333;
     }
 
     .art-item {
-        background-color: #3a3a3a; /* Darker placeholder background */
+        background-color: #3a3a3a;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -142,14 +135,12 @@
     }
 
     .text-details {
-        /* This prevents text from overflowing and breaking layout */
         overflow: hidden;
     }
 
     .name {
         color: var(--text-primary);
         font-weight: 500;
-        /* Ellipsis for long playlist names */
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

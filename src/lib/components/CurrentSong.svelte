@@ -1,7 +1,6 @@
 <!-- src/lib/components/CurrentSong.svelte -->
 <script lang="ts">
     import { player } from '$lib/playerStore.js';
-    // --- 1. Import the service function and the reactive store ---
     import { getImage, images } from '$lib/imageService.js';
     import Icon from '@iconify/svelte';
     import CachedImage from './CachedImage.svelte';
@@ -34,7 +33,6 @@
         border-radius: 6px;
     }
 
-    /* --- The rest of your styles are perfect --- */
     .current-song-card {
         background-color: var(--bg-element);
         border-radius: 8px;

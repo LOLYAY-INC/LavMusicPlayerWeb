@@ -12,15 +12,15 @@
 
     let imageData: string | null = null;
 
-    // This reactive block handles fetching and subscribing.
+
     $: {
-        // 1. Trigger the fetch/cache-check when the src prop changes.
+
         if (src) {
             getImage(src);
         }
 
-        // 2. Subscribe to the global image cache.
-        // This makes our component update automatically when the image arrives.
+
+
         const unsubscribe = images.subscribe(cache => {
             if (src && cache.has(src)) {
                 imageData = cache.get(src);
@@ -29,16 +29,16 @@
             }
         });
 
-        // This is not strictly required by Svelte 4 but is good practice for cleanup.
-        // return unsubscribe;
+
+
     }
 </script>
 
 {#if imageData}
-    <!-- Use a normal img tag with the Base64 data -->
+
     <img src={imageData} {alt} class={$$props.class} />
 {:else}
-    <!-- Show a placeholder if no data is available yet -->
+
     <div class="placeholder {$$props.class || ''}">
         <Icon icon={placeholderIcon} />
     </div>
@@ -57,6 +57,6 @@
     img {
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Ensures image fills the container without distortion */
+        object-fit: cover;
     }
 </style>

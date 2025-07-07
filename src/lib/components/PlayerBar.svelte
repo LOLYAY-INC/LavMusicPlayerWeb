@@ -298,7 +298,7 @@ function handleAdd(track): any {
     .buttons {
         display: flex;
         align-items: center;
-        gap: 24px; /* Increased gap for better spacing */
+        gap: 24px;
     }
 
     .control-btn {
@@ -306,28 +306,28 @@ function handleAdd(track): any {
         border: none;
         color: var(--text-secondary);
         cursor: pointer;
-        padding: 0; /* Remove default padding */
-        line-height: 0; /* Helps with vertical alignment */
+        padding: 0;
+        line-height: 0;
         transition: color 0.2s ease-in-out;
     }
     .control-btn:hover {
-        color: var(--text-primary); /* Icons turn white on hover */
+        color: var(--text-primary);
     }
 
     .play-btn {
         border: none;
         border-radius: 50%;
-        width: 40px;  /* Increased button size */
-        height: 40px; /* Increased button size */
+        width: 40px;
+        height: 40px;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
         background-color: var(--text-primary, #fff);
-        color: var(--bg-black, #000); /* The SVG inside will inherit this black color */
+        color: var(--bg-black, #000);
         transition: transform 0.1s ease-in-out;
     }
     .play-btn:hover {
-        transform: scale(1.08); /* Slightly larger hover effect */
+        transform: scale(1.08);
     }
 </style>
