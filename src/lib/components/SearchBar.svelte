@@ -177,6 +177,7 @@
     li {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: 8px;
         padding: 4px 8px;
         border-radius: 4px;
@@ -192,6 +193,8 @@
         gap: 12px;
         cursor: pointer;
         min-width: 0;
+        flex: 1;
+        overflow: hidden;
     }
 
     li :global(.result-art) {
