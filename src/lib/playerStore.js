@@ -231,6 +231,7 @@ const createPlayerStore = () => {
                 console.log('Connected to player!');
                 update(s => ({ ...s, ws, isConnected: true }));
                 methods._sendCommand(101);
+                methods.changevolume(getPlayer().volume);
             };
             ws.onmessage = handleMessage;
             ws.onclose = () => {
