@@ -284,10 +284,13 @@ const createPlayerStore = () => {
             update(store => {
                 if (!store.currentSong.encoded) return store;
 
+
                 const playlistState = get(playlistStore);
                 // If the song is finished, not in a playlist, and repeat is off, restart it.
-                if (!store.isPlaying && store.progress >= 100 && store.repeatMode === 'none' && !playlistState.activePlaylistId) {
-                    methods.seek(0);
+                if (!store.isPlaying && store.progress === 0 && store.repeatMode === 'none' && !playlistState.activePlaylistId) {
+                    // Seek to the beginning. This will also update progress and currentTime.
+                    methods.playSong(store.currentSong)
+                    // The rest of the function will handle sending the 'play' command.
                 }
 
                 const newIsPlayingState = !store.isPlaying;
