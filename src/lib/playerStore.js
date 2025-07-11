@@ -283,6 +283,13 @@ const createPlayerStore = () => {
         playpausebuttonpressed: () => {
             update(store => {
                 if (!store.currentSong.encoded) return store;
+
+                const playlistState = get(playlistStore);
+                // If the song is finished, not in a playlist, and repeat is off, restart it.
+                if (!store.isPlaying && store.progress >= 100 && store.repeatMode === 'none' && !playlistState.activePlaylistId) {
+                    methods.seek(0);
+                }
+
                 const newIsPlayingState = !store.isPlaying;
                 const commandToSend = newIsPlayingState ? 1132 : 1131;
                 methods._sendCommand(commandToSend);
