@@ -48,12 +48,12 @@ jobs:
 
       # 6. Zip the build output into 'assets.zip'
       # The -r flag is for recursive zipping, and -j "junks" the directory paths.
-      # This ensures the files are at the root of the zip, not inside a 'dist' folder.
-      - name: Change directory into dist
-        run: cd dist
+      # This ensures the files are at the root of the zip, not inside a 'dist' folder
 
-      - name: Create zip file
-        run: zip -r assets.zip *
+      - name: Create zip file with folder structure
+        run: |
+          cd dist
+          zip -r ../assets.zip .
 
       # 7. Create a GitHub Release and upload the zip file as an asset
       # We use a popular and robust action for creating releases.
