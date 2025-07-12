@@ -1,10 +1,11 @@
 // src/lib/playerStore.js
-import { get } from 'svelte/store';
-import { playlistStore } from './playlistStore.js';
-import { saveImage } from './imageService.js';
-import { durationStore } from './durationStore.js';
-import { getTrackId } from './utils/track.js';
-import { persistentStore } from '$lib/persistentStore.js';
+import {get} from 'svelte/store';
+import {playlistStore} from './playlistStore.js';
+import {saveImage} from './imageService.js';
+import {durationStore} from './durationStore.js';
+import {getTrackId} from './utils/track.js';
+import {persistentStore} from '$lib/persistentStore.js';
+import {loginPopup} from '$lib/stores/loginPopupStore';
 
 const defaultSong = {
     title: 'No song playing',
@@ -212,6 +213,25 @@ const createPlayerStore = () => {
                     const trackId = getTrackId(data.track);
                     durationStore.setDuration(trackId, data.duration);
                 }
+                break;
+            case 710:
+                console.log('[PlayerStore] Handling opcode 710 with data:', data);
+                update(store => {
+                    console.log('[PlayerStore] Updating store with device code:', data.deviceCode);
+                    try {
+                        loginPopup.show(data.deviceCode);
+                        console.log('[PlayerStore] loginPopup.show called successfully');
+                    } catch (error) {
+                        console.error('[PlayerStore] Error calling loginPopup.show:', error);
+                    }
+                    return store;
+                });
+                break;
+            case 712:
+                update(store => {
+                    loginPopup.close();
+                    return store;
+                });
                 break;
 
             default:

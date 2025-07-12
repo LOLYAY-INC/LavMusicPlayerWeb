@@ -1,7 +1,7 @@
-<!-- src/App.svelte -->
-<script lang="ts">
-  import { onMount } from 'svelte';
-  import { player } from '$lib/playerStore.js';
+<script>
+  import "./app.css";
+  import {onMount} from 'svelte';
+  import {player} from '$lib/playerStore.js';
 
   // Component Imports
   import PlayerBar from '$lib/components/PlayerBar.svelte';
@@ -11,6 +11,7 @@
   import AddTrackToPlaylistModal from '$lib/components/AddTrackToPlaylistModal.svelte';
   import WelcomeView from '$lib/components/WelcomeView.svelte';
   import NowPlayingView from '$lib/components/NowPlayingView.svelte';
+  import LoginPopup from '$lib/components/LoginPopup.svelte';
 
   let hasActiveSong = false;
 
@@ -23,31 +24,34 @@
   onMount(() => {
     player.init();
   });
-</script>
+</script><!-- src/App.svelte -->
+
 
 <div class="app-container">
   <aside class="sidebar">
-    <CurrentSong />
-    <PlaylistList />
+    <CurrentSong></CurrentSong>
+    <PlaylistList></PlaylistList>
   </aside>
 
   <main class="main-content">
     <header class="main-header">
-      <SearchBar />
+      <SearchBar></SearchBar>
     </header>
 
     <div class="view-container">
       {#if hasActiveSong}
-        <NowPlayingView />
+        <NowPlayingView></NowPlayingView>
       {:else}
-        <WelcomeView />
+        <WelcomeView></WelcomeView>
       {/if}
     </div>
   </main>
 </div>
 
-<PlayerBar />
-<AddTrackToPlaylistModal />
+<PlayerBar></PlayerBar>
+<AddTrackToPlaylistModal></AddTrackToPlaylistModal>
+<LoginPopup></LoginPopup>
+
 
 <style>
   :root {

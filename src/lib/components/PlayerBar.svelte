@@ -1,19 +1,45 @@
 <!-- src/lib/components/PlayerBar.svelte -->
-<script lang="ts"> // Add lang="ts" to be explicit
-import { player } from '$lib/playerStore.js';
+<script lang="ts">  // Add lang="ts" to be explicit
+import {player} from '$lib/playerStore.js';
 import Icon from "@iconify/svelte";
-import { modalStore } from '$lib/modalStore.js'; // Import modal store
-
-import { formatTime } from '$lib/utils/time.js';
+import {modalStore} from '$lib/modalStore.js'; // Import modal store
+import {formatTime} from '$lib/utils/time.js';
 import CachedImage from "$lib/components/CachedImage.svelte";
 
 let isSeeking = false;
 
 let localProgress = 0;
 
-// A reactive statement to keep localProgress in sync when not seeking.
+let localVolume = $player.volume;
+let isChangingVolume = false;
+let volumeChangeTimeout: number;
+
+const VOLUME_UPDATE_DELAY = 75;
+
+$: if (!isChangingVolume) {
+    localVolume = $player.volume;
+}
+
 $: if (!isSeeking) {
     localProgress = $player.progress;
+}
+
+function handleVolumeInput(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
+    isChangingVolume = true;
+    localVolume = Number(e.currentTarget.value);
+
+    clearTimeout(volumeChangeTimeout);
+
+
+    volumeChangeTimeout = window.setTimeout(() => {
+        player.changevolume(localVolume);
+    }, VOLUME_UPDATE_DELAY);
+}
+
+function handleVolumeChange() {
+    clearTimeout(volumeChangeTimeout);
+    player.changevolume(localVolume);
+    isChangingVolume = false;
 }
 
 // This function will now be called when the user RELEASES the mouse
@@ -158,9 +184,10 @@ function handleAdd(track): any {
                     class="volume-slider"
                     min="0"
                     max="100"
-                    value={$player.volume}
-                    on:input={(e) => player.changevolume(Number(e.currentTarget.value))}
-                    style="--volume: {$player.volume}%;"
+                    bind:value={localVolume}
+                    on:change={handleVolumeChange}
+                    on:input={handleVolumeInput}
+                    style="--volume: {localVolume}%;"
             >
         </div>
     </div>
