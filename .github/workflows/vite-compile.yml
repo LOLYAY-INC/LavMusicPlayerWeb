@@ -50,7 +50,7 @@ jobs:
       # The -r flag is for recursive zipping, and -j "junks" the directory paths.
       # This ensures the files are at the root of the zip, not inside a 'dist' folder.
       - name: Create zip file
-        run: zip -r -j assets.zip dist/*
+        run: zip -r assets.zip dist/*
 
       # 7. Create a GitHub Release and upload the zip file as an asset
       # We use a popular and robust action for creating releases.
