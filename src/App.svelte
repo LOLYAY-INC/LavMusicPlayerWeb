@@ -12,6 +12,7 @@
   import WelcomeView from '$lib/components/WelcomeView.svelte';
   import NowPlayingView from '$lib/components/NowPlayingView.svelte';
   import LoginPopup from '$lib/components/LoginPopup.svelte';
+  import DeviceSelectionModal from "$lib/components/DeviceSelectionModal.svelte";
 
   let hasActiveSong = false;
 
@@ -51,6 +52,7 @@
 <PlayerBar></PlayerBar>
 <AddTrackToPlaylistModal></AddTrackToPlaylistModal>
 <LoginPopup></LoginPopup>
+<DeviceSelectionModal/>
 
 
 <style>

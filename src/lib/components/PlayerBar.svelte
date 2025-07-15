@@ -1,12 +1,12 @@
 <!-- src/lib/components/PlayerBar.svelte -->
-<script lang="ts">  // Add lang="ts" to be explicit
-import {player} from '$lib/playerStore.js';
-import Icon from "@iconify/svelte";
-import {modalStore} from '$lib/modalStore.js'; // Import modal store
-import {formatTime} from '$lib/utils/time.js';
-import CachedImage from "$lib/components/CachedImage.svelte";
+<script lang="ts">
+    import {player} from '$lib/playerStore.js';
+    import Icon from "@iconify/svelte";
+    import {modalStore} from '$lib/modalStore.js';
+    import {formatTime} from '$lib/utils/time.js';
+    import CachedImage from "$lib/components/CachedImage.svelte";
 
-let isSeeking = false;
+    let isSeeking = false;
 
 let localProgress = 0;
 
@@ -42,7 +42,6 @@ function handleVolumeChange() {
     isChangingVolume = false;
 }
 
-// This function will now be called when the user RELEASES the mouse
 function handleSeek(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
     const newProgress = Number(e.currentTarget.value);
     player.seek(newProgress);
@@ -50,7 +49,6 @@ function handleSeek(e: Event & { currentTarget: EventTarget & HTMLInputElement }
 }
 function startDrag() {
     isSeeking = true;
-    // Tell the store to start ignoring 202 packets.
     player.startSeeking();
 }
 function handleAdd(track): any {
@@ -69,7 +67,7 @@ function handleAdd(track): any {
 </script>
 
 <footer class="player-bar">
-    <div class="song-info"> <!-- The div is now permanent -->
+    <div class="song-info">
         {#if $player.currentSong.artWorkUrl != null}
             <CachedImage
                     class="result-art"
@@ -89,7 +87,6 @@ function handleAdd(track): any {
 
 
         <div class="buttons">
-            <!-- 1. ADD SHUFFLE BUTTON -->
             <button
                     class="control-btn extra-btn"
                     class:active={$player.shuffle}
@@ -100,25 +97,20 @@ function handleAdd(track): any {
                 <Icon icon="mdi:shuffle-variant" />
             </button>
             <button class="control-btn" on:click={player.back} disabled={$player.headless}>
-                <!-- Increased size to 28px -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="currentColor" d="M16 18V6l-7 6zM6 6h2v12H6z"/></svg>
             </button>
 
             <button class="play-btn" on:click={player.playpausebuttonpressed}>
                 {#if $player.isPlaying}
-                    <!-- NEW: Solid Pause SVG, increased size -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
                 {:else}
-                    <!-- NEW: Solid Play SVG, increased size -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
                 {/if}
             </button>
 
             <button class="control-btn" on:click={player.next} disabled={$player.headless}>
-                <!-- Increased size to 28px -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="currentColor" d="m8 18l7-6l-7-6zM16 6h2v12h-2z"/></svg>
             </button>
-            <!-- 2. ADD REPEAT BUTTON -->
             <button
                     class="control-btn extra-btn"
                     class:active={$player.repeatMode !== 'none'}
@@ -165,11 +157,10 @@ function handleAdd(track): any {
         >
             <Icon icon="material-symbols:add-circle-outline" width="20" height="20" />
         </button>
-        <button class="control-btn">
+        <button class="control-btn" on:click={player.requestDeviceList}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M3 9h4V5H3zm0-6v2h4V3zm0 8v2h4v-2zm0 4v2h4v-2zm6-12v2h12V3zm0 4v2h12V7zm0 4v2h12v-2zm0 4v2h12v-2z"/></svg>
         </button>
         <div class="volume-control">
-            <!-- FIX: This block is now dynamic -->
             <button class="control-btn" on:click={player.toggleMute}>
                 {#if $player.volume == 0}
                     <Icon icon="material-symbols:volume-off-rounded" width="20" height="20" />
@@ -199,12 +190,10 @@ function handleAdd(track): any {
         cursor: not-allowed;
     }
 
-    /* Ensure hover effects don't apply when disabled */
     button:disabled:hover {
-        color: var(--text-secondary); /* or its initial color */
+        color: var(--text-secondary);
         transform: none;
     }
-    /* Add this new rule for hover effects on the progress bar */
     .progress-container:hover .progress-bar {
         background-image: linear-gradient(var(--text-interactive, #1db954), var(--text-interactive, #1db954));
     }
@@ -212,18 +201,16 @@ function handleAdd(track): any {
     .progress-container:hover .progress-bar::-webkit-slider-thumb {
         opacity: 1;
     }
-    /* 3. ADD STYLES FOR THE NEW BUTTONS */
     .extra-btn {
-        font-size: 20px; /* Make icons slightly smaller than main controls */
+        font-size: 20px;
     }
     .extra-btn.active {
-        color: var(--text-interactive); /* Green when active */
+        color: var(--text-interactive);
     }
     .control-btn:disabled {
         color: var(--bg-element-active);
         cursor: not-allowed;
     }
-    /* Modify the existing thumb rule to hide it by default */
     input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
         height: 12px;
@@ -232,14 +219,14 @@ function handleAdd(track): any {
         background: #fff;
         cursor: pointer;
         box-shadow: 0 0 2px 0 #555;
-        transition: opacity 0.2s ease-in-out; /* Use transition for the effect */
-        opacity: 0; /* Hide by default */
+        transition: opacity 0.2s ease-in-out;
+        opacity: 0;
     }
 
     .player-bar {
         grid-area: player;
-        display: grid; /* Use CSS Grid */
-        grid-template-columns: 1fr 1.5fr 1fr; /* 3 columns: left, center, right */
+        display: grid;
+        grid-template-columns: 1fr 1.5fr 1fr;
         align-items: center;
         padding: 0 16px;
         background-color: var(--bg-player, #181818);
@@ -248,15 +235,14 @@ function handleAdd(track): any {
     }
     .song-info { display: flex; align-items: center; min-width: 250px; }
 
-    /* --- THIS IS THE FIX --- */
-    /* Remove the old `.song-info img` rule and replace with this global one */
+
     .song-info :global(.result-art) {
         width: 56px;
         height: 56px;
         margin-right: 14px;
         border-radius: 4px;
-        object-fit: cover; /* This prevents the image from being stretched or squashed */
-        flex-shrink: 0; /* Prevents the image from shrinking in a tight container */
+        object-fit: cover;
+        flex-shrink: 0;
     }
 
     .song-info .title { font-weight: 500; }
@@ -266,10 +252,9 @@ function handleAdd(track): any {
     .buttons { display: flex; align-items: center; gap: 16px; }
     .control-btn { background: none; border: none; color: #b3b3b3; cursor: pointer; }
 
-    /* And change it to this */
     .play-btn {
         border: none;
-        border-radius: 50%; /* 50% is more robust than 100% for perfect circles */
+        border-radius: 50%;
         width: 32px;
         height: 32px;
         display: flex;
@@ -277,15 +262,12 @@ function handleAdd(track): any {
         align-items: center;
         cursor: pointer;
 
-        /* --- FIXES ARE HERE --- */
-        background-color: var(--text-primary, #fff); /* Use variable for white background */
-        color: var(--bg-black, #000); /* Set icon color to black */
+        background-color: var(--text-primary, #fff);
+        color: var(--bg-black, #000);
 
-        /* Add a nice transition for hover effects */
         transition: transform 0.1s ease-in-out;
     }
 
-    /* Optional but recommended: Add a hover effect */
     .play-btn:hover {
         transform: scale(1.1);
     }
@@ -294,7 +276,6 @@ function handleAdd(track): any {
     .extra-controls { display: flex; align-items: center; min-width: 250px; justify-content: flex-end; color: #b3b3b3; gap: 16px; }
     .volume-control { display: flex; align-items: center; gap: 8px; }
 
-    /* Basic Range Slider Styling */
     input[type="range"] {
         -webkit-appearance: none;
         appearance: none;
@@ -317,8 +298,8 @@ function handleAdd(track): any {
         background: #fff;
         cursor: pointer;
         box-shadow: 0 0 2px 0 #555;
-        transition: background .3s ease-in-out; /* Kept a nice transition */
-        opacity: 1; /* <-- THE FIX IS HERE */
+        transition: background .3s ease-in-out;
+        opacity: 1;
     }
 
 

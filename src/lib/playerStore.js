@@ -72,6 +72,8 @@ const createPlayerStore = () => {
             loading: false,
             error: null,
         },
+        audioDevices: [],
+        isDeviceModalOpen: false,
     };
 
     const { subscribe, update } = persistentStore('player-state', initialState);
@@ -87,6 +89,8 @@ const createPlayerStore = () => {
         duration: 0,
         headless: false,
         lyrics: { content: null, source: null, loading: false, error: null },
+        audioDevices: [],
+        isDeviceModalOpen: false,
     }));
 
     const handleMessage = (event) => {
@@ -146,7 +150,13 @@ const createPlayerStore = () => {
                     return updatedState;
                 });
                 break;
-
+            case 501: // Opcode for receiving device list
+                update(store => ({
+                    ...store,
+                    audioDevices: data.devices || [],
+                    isDeviceModalOpen: true,
+                }));
+                break;
             case 801:
                 update(store => {
                     const { content, source } = data.lyrics;
@@ -267,7 +277,21 @@ const createPlayerStore = () => {
                 update(s => ({ ...s, ws: null, isConnected: false, isPlaying: false, currentSong: defaultSong }));
             };
         },
+        requestDeviceList: () => {
+            methods._sendCommand(501);
+        },
 
+        selectAudioDevice: (device) => {
+            // Prepend the required prefix before sending to the server
+            const fullDeviceName = `OpenAL Soft on ${device}`;
+            methods._sendCommand(502, {device: fullDeviceName});
+            // Close the modal after selection
+            update(store => ({...store, isDeviceModalOpen: false}));
+        },
+
+        closeDeviceModal: () => {
+            update(store => ({...store, isDeviceModalOpen: false}));
+        },
 
         // --- REFACTORED THIS METHOD FOR CLEANLINESS ---
         requestLyrics: () => {
